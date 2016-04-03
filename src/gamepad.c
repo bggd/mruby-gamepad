@@ -16,9 +16,6 @@
 #endif
 
 
-static mrb_data_type gamepad_t = {"Gamepad_device", NULL};
-
-
 static mrb_value create_device(mrb_state* mrb, struct Gamepad_device* pad)
 {
   mrb_value axes = mrb_ary_new_capa(mrb, pad->numAxes);

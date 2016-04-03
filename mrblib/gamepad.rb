@@ -1,5 +1,4 @@
 module Gamepad
-  @@_installed = false
   @@blk_attach = nil
   def Gamepad.deviceAttachFunc(&blk)
     @@blk_attach = blk if block_given?
