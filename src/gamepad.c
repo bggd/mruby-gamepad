@@ -29,20 +29,19 @@ static mrb_value create_device(mrb_state* mrb, struct Gamepad_device* pad)
     mrb_ary_push(mrb, buttons, b);
   }
 
-  mrb_value v;
-  v = mrb_funcall(
-      mrb,mrb_obj_value(mrb_class_get_under(mrb, mrb_module_get(mrb, "Gamepad"), "Gamepad_device")),
-      "new",
-      8,
-      mrb_fixnum_value(pad->deviceID),
-      mrb_str_new_cstr(mrb, pad->description),
-      mrb_fixnum_value(pad->vendorID),
-      mrb_fixnum_value(pad->productID),
-      mrb_fixnum_value(pad->numAxes),
-      mrb_fixnum_value(pad->numButtons),
-      axes,
-      buttons);
-  return v;
+  mrb_value argv[8];
+  argv[0] = mrb_fixnum_value(pad->deviceID);
+  argv[1] = mrb_str_new_cstr(mrb, pad->description);
+  argv[2] = mrb_fixnum_value(pad->vendorID);
+  argv[3] = mrb_fixnum_value(pad->productID);
+  argv[4] = mrb_fixnum_value(pad->numAxes);
+  argv[5] = mrb_fixnum_value(pad->numButtons);
+  argv[6] = axes;
+  argv[7] = buttons;
+
+  struct RClass* c = mrb_class_get_under(mrb, mrb_module_get(mrb, "Gamepad"), "Gamepad_device");
+
+  return mrb_obj_new(mrb, c, 8, argv);
 }
 
 static mrb_value _init(mrb_state* mrb, mrb_value self)
